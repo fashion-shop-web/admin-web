@@ -4,7 +4,7 @@ class ProductController {
 
     async homePage(req, res) {
         const product = await productService.showListProduct();
-        res.render('product', { product });
+        res.render('product/listProduct', { product });
     }
 }
 

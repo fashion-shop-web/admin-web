@@ -30592,4 +30592,57 @@ div.tagsinput span.tag a {
   }
 }
 
+/* list product start here*/
+.product-table tr {
+  cursor: pointer;
+}
+
+.product-table thead >  tr {
+  cursor: auto;
+}
+
+.product-table tr:hover {
+  color: rgba(15, 15, 15, 0.5);
+}
+
+.product-table thead > tr:hover {
+  color: black;
+}
+
+/* modal */
+.product-modal {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgb(0,0,0,0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-modal .modal-form {
+  background-color: white;
+  border-radius: 5px;
+}
+
+.product-modal .modal-title {
+  text-align: center;
+  font-size: 2em;
+  margin-top: 0.5em;
+}
+
+.product-modal .madal-option-button {
+  margin: 0 1em 1em 1em;
+}
+
+.product-modal .madal-option-button button {
+  margin-left: 0.5em;
+  width: 7em;
+  height: 3em;
+}
+
+/* list product end here */
+
 /*# sourceMappingURL=../maps/vertical-layout-light/style.css.map */
