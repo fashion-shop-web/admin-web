@@ -1,38 +1,40 @@
 <div class="content-wrapper">
+    <h1 class="mb-4 text-center">PRODUCT LIST</h1>
     <div class="row">
         <div class="col-12">
             <div class="table-responsive product-table">
                 <table class="display expandable-table" style="width:100%">
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Name</th>
                             <th>Gender</th>
-                            <th>Brand</th>
                             <th>Price</th>
                             <th>Sale</th>
+                            <th></th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         {{#each product}}
                         {{#if this.gender}}
-                        <tr class="danger" onclick="document.location.href = '/'">
-                            <td>{{this._id}}</td>
-                            <td>{{this.name}}</td>
+                        <tr class="danger">
+                            <td onclick="document.location.href = '/'">{{this.name}}</td>
                             <td>Women</td>
-                            <td>{{this.brand}}</td>
                             <td>{{this.price}}</td>
                             <td>{{this.sale}}</td>
+                            <td><a href="#">Edit</a></td>
+                            <td><a href="#" data-toggle="modal" data-target="#delete-product-modal"
+                                    data-id={{this._id}}>Delete</a></td>
                         </tr>
                         {{else}}
                         <tr class="info">
-                            <td>{{this._id}}</td>
-                            <td>{{this.name}}</td>
+                            <td onclick="document.location.href = '/'">{{this.name}}</td>
                             <td>Men</td>
-                            <td>{{this.brand}}</td>
                             <td>{{this.price}}</td>
                             <td>{{this.sale}}</td>
+                            <td><a href="#">Edit</a></td>
+                            <td><a href="" data-toggle="modal" data-target="#delete-product-modal"
+                                    data-id={{this._id}}>Delete</a></td>
                         </tr>
                         {{/if}}
                         {{/each}}
@@ -41,17 +43,48 @@
             </div>
         </div>
     </div>
-</div>
 
-{{!-- model option --}}
-<div class="product-modal">
-    <div class="modal-form">
-        <div class="modal-title">CHOOSE ONE OPTION</div>
-        <hr>
-        <div class="madal-option-button">
-            <button type="button" class="btn btn-danger">Delete</button>
-            <button type="button" class="btn btn-warning">Update</button>
-            <button type="button" class="btn btn-info">View</button>
+    <!-- Modal -->
+    <div class="modal fade" id="delete-product-modal" tabindex="-1" aria-labelledby="delete-comfirm-modal"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="delete-comfirm-modal">Comfirm</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">Do you really want to delete this product?</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button id="cofirm-delete-product" type="button" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+{{!-- hidden form action delete --}}
+<form name="hidden-delete-form" method="POST"></form>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', () => {
+        let id = null;
+        const delButton = document.getElementById('cofirm-delete-product');
+        const delForm = document.forms['hidden-delete-form'];
+
+        $('#delete-product-modal').on('show.bs.modal', function (event) {
+            id = $(event.relatedTarget).data('id');
+
+        })
+
+        delButton.onclick = () => {
+            delForm.action = '/product/' + id + '?_method=DELETE';
+            delForm.submit();
+        }
+    })
+
+
+</script>

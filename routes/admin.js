@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const AdminController = require('../Contronller/AdminController');
+const AdminController = require('../Controller/AdminController');
 
 router.get('/', AdminController.homePage);
 
