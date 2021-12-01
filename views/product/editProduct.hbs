@@ -1,38 +1,63 @@
 <div class="content-wrapper">
-    <h1 class="mb-4 text-center">ADD NEW PRODUCT</h1>
-    <form class="forms-sample" method="POST" action='/product/store'>
+    <h1 class="mb-4 text-center">EDIT PRODUCT</h1>
+
+    <form class="forms-sample" method="POST" action='/product/{{editProduct._id}}?_method=PUT'>
         <div class="form-group">
             <label for="product-name-input">Name</label>
-            <input type="text" class="form-control" id="product-name-input" placeholder="Name" name="name" required>
+            <input type="text" class="form-control" id="product-name-input" placeholder="Name" name="name"
+                value="{{editProduct.name}}" required>
         </div>
+
         <div class="form-group">
             <label for="product-brand-input">Brand</label>
-            <input type="text" class="form-control" id="product-brand-input" placeholder="Brand" name="brand" required>
+            <input type="text" class="form-control" id="product-brand-input" placeholder="Brand" name="brand" required
+                value="{{editProduct.brand}}">
         </div>
+
         <div class="form-group">
             <label for="product-gender-dropbox">Gender</label>
             <select class="form-control" id="product-gender-dropbox" name="gender" required>
+                {{#if (compare editProduct.gender true)}}
                 <option value="false">Male</option>
+                <option value="true" selected>Female</option>
+                {{else}}
+                <option value="false" selected>Male</option>
                 <option value="true">Female</option>
+                {{/if}}
             </select>
         </div>
         <div class="form-group">
             <label for="product-catergory-dropbox">Category</label>
             <select class="form-control" id="product-catergory-dropbox" name="category" required>
-                <option value="Handbag">Handbag</option>
+                {{#if (compare editProduct.category 'Handbag')}}
+                <option value="Handbag" selected>Handbag</option>
                 <option value="Bracelet">Bracelet</option>
                 <option value="Wrist watch">Wrist watch</option>
+                {{/if}}
+                {{#if (compare editProduct.category 'Bracelet')}}
+                <option value="Handbag" selected>Handbag</option>
+                <option value="Bracelet" selected>Bracelet</option>
+                <option value="Wrist watch">Wrist watch</option>
+                {{/if}}
+                {{#if (compare editProduct.category 'Wrist watch')}}
+                <option value="Handbag" selected>Handbag</option>
+                <option value="Bracelet">Bracelet</option>
+                <option value="Wrist watch" selected>Wrist watch</option>
+                {{/if}}
+
             </select>
         </div>
 
         <div class="form-group">
             <label for="product-price-input">Price</label>
-            <input type="text" class="form-control" id="product-price-input" placeholder="Price" name="price" required>
+            <input type="text" class="form-control" id="product-price-input" placeholder="Price" name="price" required
+                value="{{editProduct.price}}">
         </div>
 
         <div class="form-group">
             <label for="product-sale-input">Sale</label>
-            <input type="text" class="form-control" id="product-sale-input" placeholder="Sale" name="sale" required>
+            <input type="text" class="form-control" id="product-sale-input" placeholder="Sale" name="sale"
+                value="{{editProduct.sale}}">
         </div>
 
         {{!-- product images --}}
@@ -50,11 +75,12 @@
         <div class="form-group">
             <label for="product-description-input">Description</label>
             <textarea class="form-control" id="product-description-input" rows="4" name="description"
-                required></textarea>
+                required>{{editProduct.description}}</textarea>
         </div>
 
         <div class="float-right mt-4">
             <button type="submit" class="btn btn-primary mr-2">Submit</button>
         </div>
+
     </form>
 </div>
