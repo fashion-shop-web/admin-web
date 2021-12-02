@@ -1,7 +1,7 @@
 class CustomerController {
 
     homePage(req, res) {
-        res.render('customer')
+        res.render('customer/listCustomer')
     }
 
 }
