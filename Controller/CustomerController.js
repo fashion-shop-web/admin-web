@@ -1,7 +1,11 @@
+const CustomerService = require('../services/CustomerService');
+
 class CustomerController {
 
-    homePage(req, res) {
-        res.render('customer/listCustomer')
+    async homePage(req, res) {
+        let currentPage = parseInt(req.query.page) || 1;
+        const [customer, pages] = await CustomerService.showListCustomer(currentPage);
+        res.render('customer/listCustomer', {customer, pages, currentPage});
     }
 
 }
