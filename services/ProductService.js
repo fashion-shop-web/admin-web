@@ -1,8 +1,10 @@
 const product = require('../models/product');
+const cloudinary = require('../utils/cloudinary');
+const fs = require('fs');
 
 const showListProduct = async (reqPage) => {
     try {
-        let products = await product.find({}).lean();
+        let products = await (await product.find({}).lean()).reverse();
         const page = reqPage;
         const perPage = 10;
 
@@ -20,7 +22,7 @@ const showListProduct = async (reqPage) => {
             return { ...item, gender: item.gender ? true : null };
         });
 
-        return [products.reverse(), pages];
+        return [products, pages];
     } catch (err) {
         console.log(err);
     }
@@ -28,13 +30,29 @@ const showListProduct = async (reqPage) => {
     return [null, []];
 }
 
-const addNew = (body) => {
+const addNew = async (body, files) => {
     try {
+        const urls = [];
+        for (const file of files) {
+            const { path } = file;
+            const { public_id, secure_url } = await cloudinary.uploader.upload(path);
+
+            urls.push({ public_id, secure_url })
+
+            fs.unlinkSync(path)
+        }
+
+        const image = [];
+        urls.forEach(item => {
+            image.push(item)
+        })
+
+        const name = body.name.toLowerCase();
         const gender = body.gender === 'true' ? true : false;
         const description = body.description.split('\r\n');
 
-        const newProduct = new product({ ...body, gender, description });
-        newProduct.save()
+        const newProduct = new product({ ...body, name, gender, description, image });
+        newProduct.save();
     } catch (err) {
         console.log(err);
     }
@@ -42,7 +60,14 @@ const addNew = (body) => {
 
 const deleleProduct = async (id) => {
     try {
-        await product.deleteOne({ _id: id });
+        const delProduct = await product.findOne({ _id: id });
+
+        for (let i = 0; i < delProduct.image.length; i++) {
+            await cloudinary.uploader.destroy(delProduct.image[i].public_id);
+            console.log(delProduct.image[i].public_id);
+        }
+
+        await delProduct.remove();
     } catch (err) {
         console.log(err);
     }

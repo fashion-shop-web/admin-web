@@ -1,13 +1,15 @@
 <div class="content-wrapper">
     <h1 class="mb-4 text-center">ADD NEW PRODUCT</h1>
-    <form class="forms-sample" method="POST" action='/product/store'>
+    <form name="forms-add-product" method="POST" action='/product/store' enctype="multipart/form-data">
         <div class="form-group">
             <label for="product-name-input">Name</label>
-            <input type="text" class="form-control" id="product-name-input" placeholder="Name" name="name" required>
+            <input type="text" class="form-control" id="product-name-input" placeholder="Enter new product name"
+                name="name" required>
         </div>
         <div class="form-group">
             <label for="product-brand-input">Brand</label>
-            <input type="text" class="form-control" id="product-brand-input" placeholder="Brand" name="brand" required>
+            <input type="text" class="form-control" id="product-brand-input" placeholder="Enter product brand"
+                name="brand" required>
         </div>
         <div class="form-group">
             <label for="product-gender-dropbox">Gender</label>
@@ -27,30 +29,30 @@
 
         <div class="form-group">
             <label for="product-price-input">Price</label>
-            <input type="text" class="form-control" id="product-price-input" placeholder="Price" name="price" required>
+            <input type="number" class="form-control" id="product-price-input" placeholder="Enter price" name="price"
+                required>
         </div>
 
         <div class="form-group">
             <label for="product-sale-input">Sale</label>
-            <input type="text" class="form-control" id="product-sale-input" placeholder="Sale" name="sale" required>
+            <input type="number" class="form-control" id="product-sale-input" placeholder="Enter sale off percentage"
+                name="sale" required>
         </div>
 
         {{!-- product images --}}
-        {{!-- <div class="form-group">
-            <label>Image upload</label>
-            <input type="file" name="img[]" class="file-upload-default">
-            <div class="input-group col-xs-12">
-                <input type="text" class="form-control file-upload-info" placeholder="Upload Image">
-                <span class="input-group-append">
-                    <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
-                </span>
+        <div class="form-group">
+            <label>Product image</label>
+            <div class="custom-file mb-3">
+                <input type="file" class="custom-file-input" id="product-file-input" required multiple name="images"
+                    accept="image/*">
+                <label class=" custom-file-label" for="product-file-input">Choose file...</label>
             </div>
-        </div> --}}
+        </div>
 
         <div class="form-group">
             <label for="product-description-input">Description</label>
             <textarea class="form-control" id="product-description-input" rows="4" name="description"
-                required></textarea>
+                placeholder="Description..." required></textarea>
         </div>
 
         <div class="float-right mt-4">
