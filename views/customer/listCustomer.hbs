@@ -16,26 +16,19 @@
                     </thead>
                     <tbody>
                         {{#each customer }}
-                        {{#if this.status}}
-                        <tr class="danger">
+                        <tr>
                             <td>{{this.firstName}}</td>
                             <td>{{this.lastName}}</td>
                             <td>{{this.email}}</td>
                             <td>{{this.address}}</td>
                             <td>{{this.number}}</td>
-                            <td><a href="/customer/{{this._id}}/edit">Ban</a>
-                            </td>
+                            {{#if this.status}}
+                            <td><a href="#" style="color: red;">BAN</a></td>
+                            {{else}}
+                            <td><a href="#">UNBAN</a></td>
                         </tr>
-                        {{else}}
-                        <tr class="info">
-                            <td>{{this.firstName}}</td>
-                            <td>{{this.lastName}}</td>
-                            <td>{{this.email}}</td>
-                            <td>{{this.address}}</td>
-                            <td>{{this.number}}</td>
-                            <td><a href="/customer/{{this._id}}/edit">Unban</a>
-                            </td>
-                        </tr>
+
+
                         {{/if}}
                         {{/each}}
                     </tbody>

@@ -13,7 +13,7 @@ router.delete('/:id', productController.deleteProduct)
 
 //edit
 router.get('/:id/edit', productController.editForm);
-router.put('/:id', productController.updateProduct);
+router.put('/:id', upload.array('images'), productController.updateProduct);
 
 //read
 router.get('/', productController.homePage);

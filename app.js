@@ -5,8 +5,6 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const route = require('./routes');
 const methodOverride = require('method-override');
-
-
 const app = express();
 
 //helper

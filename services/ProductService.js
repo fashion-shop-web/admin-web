@@ -52,7 +52,7 @@ const addNew = async (body, files) => {
         const description = body.description.split('\r\n');
 
         const newProduct = new product({ ...body, name, gender, description, image });
-        newProduct.save();
+        await newProduct.save();
     } catch (err) {
         console.log(err);
     }
@@ -64,7 +64,6 @@ const deleleProduct = async (id) => {
 
         for (let i = 0; i < delProduct.image.length; i++) {
             await cloudinary.uploader.destroy(delProduct.image[i].public_id);
-            console.log(delProduct.image[i].public_id);
         }
 
         await delProduct.remove();
@@ -85,9 +84,37 @@ const getEditProduct = async (id) => {
     return null;
 }
 
-const updateProduct = async (id, updatedProduct) => {
+const updateProduct = async (id, updatedProduct, files) => {
     try {
-        await product.updateOne({ _id: id }, updatedProduct);
+        if (files.length === 0) {
+            await product.updateOne({ _id: id }, updatedProduct);
+        } else {
+            let oldProduct = await product.findById(id);
+            console.log(oldProduct);
+
+            const urls = [];
+            for (let i = 0; i < oldProduct.image.length; i++) {
+                await cloudinary.uploader.destroy(oldProduct.image[i].public_id);
+            }
+
+            for (const file of files) {
+                const { path } = file;
+                const { public_id, secure_url } = await cloudinary.uploader.upload(path);
+
+                urls.push({ public_id, secure_url })
+
+                fs.unlinkSync(path)
+            }
+
+            const image = [];
+            urls.forEach(item => {
+                image.push(item)
+            })
+
+            updatedProduct.image = image;
+            await product.updateOne({ _id: id }, updatedProduct);
+        }
+
     } catch (err) {
         console.log(err);
     }

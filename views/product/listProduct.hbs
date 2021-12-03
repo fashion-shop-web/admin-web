@@ -3,12 +3,13 @@
     <div class="row">
         <div class="col-12">
             <div class="table-responsive product-table">
-                <table class="display expandable-table" style="width:100%">
+                <table class="display expandable-table" style="width:100%; text-transform: uppercase;">
                     <thead>
                         <tr>
                             <th>Name</th>
                             <th>Gender</th>
                             <th>Category</th>
+                            <th>Brand</th>
                             <th>Price</th>
                             <th>Sale</th>
                             <th></th>
@@ -22,6 +23,7 @@
                             <td>{{this.name}}</td>
                             <td>Women</td>
                             <td>{{this.category}}</td>
+                            <td>{{this.brand}}</td>
                             <td>{{this.price}}</td>
                             <td>{{this.sale}}</td>
                             <td><a href="/product/{{this._id}}/edit">Edit</a>
@@ -34,12 +36,13 @@
                             <td>{{this.name}}</td>
                             <td>Men</td>
                             <td>{{this.category}}</td>
+                            <td>{{this.brand}}</td>
                             <td>{{this.price}}</td>
                             <td>{{this.sale}}</td>
                             <td><a href="/product/{{this._id}}/edit">Edit</a>
                             </td>
-                            <td><a href="" data-toggle="modal" data-target="#delete-product-modal"
-                                    data-id={{this._id}}>Delete</a></td>
+                            <td><a href="" data-toggle="modal" data-target="#delete-product-modal" data-id={{this._id}}
+                                    style="color: red;">Delete</a></td>
                         </tr>
                         {{/if}}
                         {{/each}}

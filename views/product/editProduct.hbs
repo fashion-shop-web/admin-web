@@ -1,7 +1,8 @@
 <div class="content-wrapper">
     <h1 class="mb-4 text-center">EDIT PRODUCT</h1>
 
-    <form class="forms-sample" method="POST" action='/product/{{editProduct._id}}?_method=PUT'>
+    <form class="forms-sample" method="POST" action='/product/{{editProduct._id}}?_method=PUT'
+        enctype="multipart/form-data">
         <div class="form-group">
             <label for="product-name-input">Name</label>
             <input type="text" class="form-control" id="product-name-input" placeholder="Name" name="name"
@@ -60,17 +61,22 @@
                 value="{{editProduct.sale}}">
         </div>
 
+        <div class="form-group">
+            <div>Old product image:</div>
+            {{#each editProduct.image}}
+            <img src={{this.secure_url}} width="20%">
+            {{/each}}
+        </div>
+
         {{!-- product images --}}
-        {{!-- <div class="form-group">
-            <label>Image upload</label>
-            <input type="file" name="img[]" class="file-upload-default">
-            <div class="input-group col-xs-12">
-                <input type="text" class="form-control file-upload-info" placeholder="Upload Image">
-                <span class="input-group-append">
-                    <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
-                </span>
+        <div class="form-group">
+            <label>Product image</label>
+            <div class="custom-file mb-3">
+                <input type="file" class="custom-file-input" id="product-file-input" multiple name="images"
+                    accept="image/*">
+                <label class=" custom-file-label" for="product-file-input">Choose file...</label>
             </div>
-        </div> --}}
+        </div>
 
         <div class="form-group">
             <label for="product-description-input">Description</label>
