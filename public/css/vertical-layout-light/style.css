@@ -30592,23 +30592,5 @@ div.tagsinput span.tag a {
   }
 }
 
-/* list product start here*/
-.product-table tr {
-  cursor: pointer;
-}
-
-.product-table thead >  tr {
-  cursor: auto;
-}
-
-.product-table tr:hover {
-  color: rgba(15, 15, 15, 0.5);
-}
-
-.product-table thead > tr:hover {
-  color: black;
-}
-
-/* list product end here */
 
 /*# sourceMappingURL=../maps/vertical-layout-light/style.css.map */

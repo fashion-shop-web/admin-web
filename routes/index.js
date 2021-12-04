@@ -2,17 +2,21 @@ const adminRouter = require('./admin');
 const customerRouter = require('./customer');
 const productRouter = require('./product');
 const createError = require('http-errors');
+const loginRouter = require('./login')
+const loginGaurd = require('../utils/LoginGaurd');
 
 function route(app) {
 
   //product management
-  app.use('/product', productRouter)
+  app.use('/product', loginGaurd, productRouter)
 
   //customer management
-  app.use('/customer', customerRouter);
+  app.use('/customer', loginGaurd, customerRouter);
 
   /* admin home page */
-  app.use('/', adminRouter);
+  app.use('/admin', loginGaurd, adminRouter);
+
+  app.use('/', loginRouter);
 
   // catch 404 and forward to error handler
   app.use(function (req, res, next) {

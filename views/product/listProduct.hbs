@@ -3,12 +3,13 @@
     <div class="row">
         <div class="col-12">
             <div class="table-responsive product-table">
-                <table class="display expandable-table" style="width:100%">
+                <table class="display expandable-table" style="width:100%; text-transform: uppercase;">
                     <thead>
                         <tr>
                             <th>Name</th>
                             <th>Gender</th>
                             <th>Category</th>
+                            <th>Brand</th>
                             <th>Price</th>
                             <th>Sale</th>
                             <th></th>
@@ -19,9 +20,10 @@
                         {{#each product}}
                         {{#if this.gender}}
                         <tr class="danger">
-                            <td onclick="document.location.href = '/'">{{this.name}}</td>
+                            <td>{{this.name}}</td>
                             <td>Women</td>
                             <td>{{this.category}}</td>
+                            <td>{{this.brand}}</td>
                             <td>{{this.price}}</td>
                             <td>{{this.sale}}</td>
                             <td><a href="/product/{{this._id}}/edit">Edit</a>
@@ -31,15 +33,16 @@
                         </tr>
                         {{else}}
                         <tr class="info">
-                            <td onclick="document.location.href = '/'">{{this.name}}</td>
+                            <td>{{this.name}}</td>
                             <td>Men</td>
                             <td>{{this.category}}</td>
+                            <td>{{this.brand}}</td>
                             <td>{{this.price}}</td>
                             <td>{{this.sale}}</td>
                             <td><a href="/product/{{this._id}}/edit">Edit</a>
                             </td>
-                            <td><a href="" data-toggle="modal" data-target="#delete-product-modal"
-                                    data-id={{this._id}}>Delete</a></td>
+                            <td><a href="" data-toggle="modal" data-target="#delete-product-modal" data-id={{this._id}}
+                                    style="color: red;">Delete</a></td>
                         </tr>
                         {{/if}}
                         {{/each}}
@@ -99,6 +102,7 @@
 <form name="hidden-delete-form" method="POST"></form>
 
 <script>
+    const currentPage = document.getElementById('product-list-current-page');
 
     document.addEventListener('DOMContentLoaded', () => {
         let id = null;
@@ -111,13 +115,13 @@
         })
 
         delButton.onclick = () => {
-            delForm.action = '/product/' + id + '?_method=DELETE';
+            delForm.action = '/product/' + id + `?_method=DELETE&page=${currentPage.getAttribute('name')}`;
             delForm.submit();
         }
     })
 
     //active current page
-    const currentPage = document.getElementById('product-list-current-page');
+
     const pages = Array.from(document.querySelectorAll('.product-list-pagination .pagination .page-item'));
     const forward = pages.pop();
     const backward = pages.shift();
