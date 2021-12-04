@@ -8,15 +8,16 @@ const loginGaurd = require('../utils/LoginGaurd');
 function route(app) {
 
   //product management
-  app.use('/product', loginGaurd, productRouter)
+  app.use('/product', loginGaurd.LoginGaurd, productRouter)
 
   //customer management
-  app.use('/customer', loginGaurd, customerRouter);
+  app.use('/customer', loginGaurd.LoginGaurd, customerRouter);
 
   /* admin home page */
-  app.use('/admin', loginGaurd, adminRouter);
+  app.use('/admin', loginGaurd.LoginGaurd, adminRouter);
 
-  app.use('/', loginRouter);
+  // login page
+  app.use('/', loginGaurd.LoginedGaurd, loginRouter);
 
   // catch 404 and forward to error handler
   app.use(function (req, res, next) {

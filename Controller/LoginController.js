@@ -1,5 +1,4 @@
 
-
 class LoginController {
 
     loginPage(req, res) {
@@ -8,10 +7,15 @@ class LoginController {
     }
 
     logOut(req, res) {
-        req.logOut();
-        res.redirect('/');
-    }
+        console.log('da log out')
 
+        req.logOut();
+        // res.redirect('/');
+        console.log('da log out')
+        res.json({
+            message: "logged out"
+        })
+    }
 }
 
 module.exports = new LoginController;

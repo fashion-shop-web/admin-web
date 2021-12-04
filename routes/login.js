@@ -4,9 +4,6 @@ const passport = require('../utils/passport');
 
 const loginController = require('../Controller/LoginController');
 
-
-router.get('/logout', loginController.logOut);
-
 router.get('/', loginController.loginPage);
 
 router.post('/', passport.authenticate('local', {

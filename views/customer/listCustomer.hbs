@@ -1,7 +1,7 @@
 <div class="content-wrapper">
     <h1 class="mb-4 text-center"> CUSTOMER LIST</h1>
     <div class="row">
-        <div class="col-12">
+        <div class="col-12 mt-4">
             <div class="table-responsive customer-table">
                 <table class="display expandable-table" style="width:100%">
                     <thead>
@@ -23,9 +23,12 @@
                             <td>{{this.address}}</td>
                             <td>{{this.number}}</td>
                             {{#if this.status}}
-                            <td><a href="#" style="color: red;">UNBAN</a></td>
+                            <td><a href="#" style="color: red;" data-toggle="modal" data-target="#unban-modal"
+                                    data-id={{this._id}}>UNBAN</a>
+                            </td>
                             {{else}}
-                            <td><a href="#">BAN</a></td>
+                            <td><a href="#" data-toggle="modal" data-target="#ban-modal" data-id={{this._id}}>BAN</a>
+                            </td>
                         </tr>
                         {{/if}}
                         {{/each}}
@@ -33,5 +36,124 @@
                 </table>
             </div>
         </div>
+
+        <div id="customer-list-current-page" hidden name={{currentPage}}></div>
+        {{!-- pagination --}}
+        <div class="mt-5 col-12 d-flex justify-content-center customer-list-pagination">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                    {{#each pages}}
+                    <li class="page-item" name={{this}}><a class="page-link" href="?page={{this}}">{{this}}</a></li>
+                    {{/each}}
+
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    {{!-- Modal ban --}}
+    <div class="modal fade" id="ban-modal" tabindex="-1" aria-labelledby="ban-comfirm-modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ban-comfirm-modal">Comfirm</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">Do you really want to ban this customer?</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button id="cofirm-ban-customer" type="button" class="btn btn-danger"
+                        style="min-width: 4em;">Ban</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{!-- Modal unban --}}
+    <div class="modal fade" id="unban-modal" tabindex="-1" aria-labelledby="ban-comfirm-modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ban-comfirm-modal">Comfirm</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">Do you really want to unban this customer?</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button id="cofirm-unban-customer" type="button" class="btn btn-primary">Unban</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+{{!-- hidden ban/unban form --}}
+<form name="hidden-ban-form" method="POST"></form>
+
+<script>
+    const currentPage = document.getElementById('customer-list-current-page');
+
+    // ban/unban modal
+    document.addEventListener('DOMContentLoaded', () => {
+        let id = null;
+        const banButton = document.getElementById('cofirm-ban-customer');
+        const unbanButton = document.getElementById('cofirm-unban-customer');
+        const actionForm = document.forms['hidden-ban-form'];
+
+        $('#unban-modal').on('show.bs.modal', function (event) {
+            id = $(event.relatedTarget).data('id');
+        })
+
+        $('#ban-modal').on('show.bs.modal', function (event) {
+            id = $(event.relatedTarget).data('id');
+        })
+
+        banButton.onclick = () => {
+            actionForm.action = '/customer/ban/' + id + `?page=${currentPage.getAttribute('name')}`;
+            actionForm.submit();
+        }
+
+        unbanButton.onclick = () => {
+            actionForm.action = '/customer/unban/' + id + `?page=${currentPage.getAttribute('name')}`;
+            console.log('/customer/unban/' + id + `?page=${currentPage.getAttribute('name')}`)
+            actionForm.submit();
+        }
+    })
+
+
+    const pages = Array.from(document.querySelectorAll('.customer-list-pagination .pagination .page-item'));
+    const forward = pages.pop();
+    const backward = pages.shift();
+
+    for (let i = 0; i < pages.length; i++) {
+        if (pages[i].textContent == currentPage.getAttribute('name')) pages[i].classList.add('active');
+    }
+
+    forward.onclick = (e) => {
+        e.preventDefault();
+        if (currentPage.getAttribute('name') == pages[pages.length - 1].textContent) return;
+        else pages[parseInt(currentPage.getAttribute('name'))].childNodes[0].click();
+    }
+
+    backward.onclick = (e) => {
+        e.preventDefault();
+        if (currentPage.getAttribute('name') == pages[0].textContent) return;
+        else pages[parseInt(currentPage.getAttribute('name')) - 2].childNodes[0].click();
+    }
+</script>

@@ -7,7 +7,7 @@ const user = new Schema({
     id: ObjectId,
     firstName: { type: String, maxlength: 15, required: true },
     lastName: { type: String, maxlength: 15, required: true },
-    email: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     address: { type: String, maxlength: 100, required: true },
     number: { type: String, maxlength: 11, required: true },

@@ -1,8 +1,9 @@
 const user = require('../models/user');
 
-const showListCustomer = async(reqPage) =>{
-    try{
-        let customers = await user.find({}).lean();
+const showListCustomer = async (reqPage) => {
+    try {
+        let customers = await user.find({ role: false }).lean();
+        customers.reverse();
         const page = reqPage;
         const perPage = 10;
 
@@ -16,23 +17,35 @@ const showListCustomer = async(reqPage) =>{
 
         customers = customers.slice(start, end);
 
-        customers = customers.map(item => {
-            return {firstName: item.firstName,
-                lastName: item.lastName,
-                email: item.email, 
-                address: item.address,
-                number: item.number,
-                status: item.status ? true : false};
-        });
-
-        return [customers.reverse(), pages];
+        return [customers, pages];
     }
-    catch(err)
-    {
+    catch (err) {
         console.error(err);
+    }
+}
+
+const banCustomer = async (id) => {
+    try {
+        let customer = await user.findOne({ _id: id, role: false });
+        customer.status = true;
+        await customer.save();
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+const unbanCustomer = async (id) => {
+    try {
+        let customer = await user.findOne({ _id: id, role: false });
+        customer.status = false;
+        await customer.save();
+    } catch (err) {
+        console.log(err);
     }
 }
 
 module.exports = {
     showListCustomer,
+    banCustomer,
+    unbanCustomer
 }
