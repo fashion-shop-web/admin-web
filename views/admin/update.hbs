@@ -1,12 +1,13 @@
 <div class="content-wrapper">
     <h1 class="text-center">UPDATE INFORMATION</h1>
-    <form class="pt-3 mt-5 p-5" action='/admin/update/{{user._id}}' method="POST">
+    <form class="pt-3 mt-5 p-5" action='/admin/update/{{user._id}}' method="POST" id="form-update-admin">
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
                     <label>First name</label>
                     <input type="text" class="form-control form-control-lg" name="firstName" placeholder="First name"
-                        required value="{{user.firstName}}">
+                        required {{#if newinfo}}value="{{newinfo.firstName}}" {{else}}value="{{user.firstName}}"
+                        {{/if}}>
                 </div>
             </div>
 
@@ -14,24 +15,24 @@
                 <label>Last name</label>
                 <div class="form-group">
                     <input type="text" class="form-control form-control-lg" name="lastName" placeholder="Last name"
-                        required value="{{user.lastName}}">
+                        required {{#if newinfo}}value="{{newinfo.lastName}}" {{else}}value="{{user.lastName}}" {{/if}}>
                 </div>
             </div>
         </div>
         <div class="form-group">
             <label>Email</label>
-            <input type="email" class="form-control form-control-lg" name="email" placeholder="Email" required
-                value={{user.email}}>
+            <input type="email" class="form-control form-control-lg" name="email" placeholder="Email" required {{#if
+                newinfo}}value="{{newinfo.email}}" {{else}}value="{{user.email}}" {{/if}}>
         </div>
         <div class="form-group">
             <label>Number</label>
-            <input type="tel" class="form-control form-control-lg" name="number" placeholder="Number" required
-                value={{user.number}}>
+            <input type="tel" class="form-control form-control-lg" name="number" placeholder="Number" required {{#if
+                newinfo}}value="{{newinfo.number}}" {{else}}value="{{user.number}}" {{/if}}>
         </div>
         <div class="form-group mb-5">
             <label>Address</label>
-            <input type="text" class="form-control form-control-lg" name="address" placeholder="Address" required
-                value="{{user.address}}">
+            <input type="text" class="form-control form-control-lg" name="address" placeholder="Address" required {{#if
+                newinfo}}value="{{newinfo.address}}" {{else}}value="{{user.address}}" {{/if}}>
         </div>
         {{#if message}}
         <div class="text-right mt-5" style="color: red;">Email has been used</div>
@@ -40,5 +41,26 @@
             <input type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
                 value="UPDATE"></input>
         </div>
+
+        {{#if newinfo}}
+        <div id="update-storage-admin"></div>
+        {{/if}}
     </form>
 </div>
+
+<script>
+    const newinfo = document.getElementById('update-storage-admin');
+    const form = document.getElementById('form-update-admin');
+    const elements = form.elements;
+
+    const info = {
+        firstName: elements['firstName'].value,
+        lastName: elements['lastName'].value,
+        email: elements['email'].value,
+        address: elements['address'].value,
+        number: elements['number'].value,
+    }
+    if (newinfo) {
+        localStorage.set('user', info)
+    }
+</script>

@@ -24,8 +24,7 @@ class AdminController {
     async storeUpdateInfo(req, res) {
         const valid = await adminService.updateInfo(req.params.id, req.body);
         if (valid) {
-            res.locals.user = { ...res.locals.user, ...req.body };
-            res.redirect('/admin');
+            res.render('admin/update', { newinfo: req.body, message: 'Update success' });
         } else {
             res.render('admin/update', { message: "duplicate email" })
         }
