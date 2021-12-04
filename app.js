@@ -5,9 +5,6 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const route = require('./routes');
 const methodOverride = require('method-override');
-const session = require('express-session');
-const passport = require('./utils/passport');
-
 const app = express();
 
 //helper
@@ -28,14 +25,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride('_method'));
 
-app.use(require('express-session')({ secret: process.env.MY_SECRET_SESSION, resave: true, saveUninitialized: true }));
-app.use(passport.initialize());
-app.use(passport.session());
-
-app.use(function (req, res, next) {
-    res.locals.admin = req.user;
-    next()
-})
 
 route(app);
 

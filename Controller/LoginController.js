@@ -3,13 +3,11 @@
 class LoginController {
 
     loginPage(req, res) {
-        const wrongPassword = req.query['wrong-password'] !== undefined;
-        res.render('login', { layout: false, wrongPassword })
+        res.render('login', { layout: false })
     }
 
-    logOut(req, res) {
-        req.logOut();
-        res.redirect('/');
+    RegisterPage(req, res) {
+        res.render('register', { layout: false })
     }
 
 }

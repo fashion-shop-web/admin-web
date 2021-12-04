@@ -54,13 +54,14 @@
 
           <li class="nav-item nav-profile dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-              {{#if admin}}
-              <div>Hello, {{admin.lastName}}
-              </div>
-              {{/if}}
+              <img src="/images/faces/face28.jpg" alt="profile" />
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a class="dropdown-item" href="/logout">
+              <a class="dropdown-item">
+                <i class="ti-settings text-primary"></i>
+                Settings
+              </a>
+              <a class="dropdown-item">
                 <i class="ti-power-off text-primary"></i>
                 Logout
               </a>
@@ -111,10 +112,9 @@
             </a>
             <div class="collapse" id="admin">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/admin">List</a></li>
-                <li class="nav-item"> <a class="nav-link" href="/admin/update">Update</a></li>
-                <li class="nav-item"> <a class="nav-link" href="/admin/password">Password</a></li>
-                <li class="nav-item"> <a class="nav-link" href="/admin/create">Create</a></li>
+                <li class="nav-item"> <a class="nav-link" href="/">List</a></li>
+                <li class="nav-item"> <a class="nav-link" href="/change">Update</a></li>
+                <li class="nav-item"> <a class="nav-link" href="/password">Password</a></li>
               </ul>
             </div>
           </li>
