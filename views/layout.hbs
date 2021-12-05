@@ -54,14 +54,10 @@
 
           <li class="nav-item nav-profile dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-              {{#if user}}
               {{#if newinfo}}
-              <div>Hello, {{{newinfo.lastName}}}
-              </div>
+              <div>Hello, {{{newinfo.lastName}}}</div>
               {{else}}
-              <div>Hello, {{{user.lastName}}}
-              </div>
-              {{/if}}
+              <div>Hello, {{{user.lastName}}}</div>
               {{/if}}
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">

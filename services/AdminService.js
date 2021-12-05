@@ -2,6 +2,16 @@ const user = require('../models/user');
 const bcrypt = require('bcryptjs');
 const salt = bcrypt.genSaltSync(10);
 
+const getAdmin = async (id) => {
+    try {
+        const admin = await user.findOne({ _id: id });
+
+        return admin;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 const getListAdmin = async (reqPage) => {
     try {
         let admin = await user.find({ role: true }).lean();
@@ -85,5 +95,6 @@ module.exports = {
     createNewAccount,
     getListAdmin,
     updateInfo,
-    validateChangePass
+    validateChangePass,
+    getAdmin
 }

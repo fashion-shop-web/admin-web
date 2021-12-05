@@ -30,9 +30,17 @@ class AdminController {
     async storeUpdateInfo(req, res) {
         const valid = await adminService.updateInfo(req.params.id, req.body);
         if (valid) {
-            res.render('admin/update', { newinfo: req.body, message: 'Update success' });
+            const admin = await adminService.getAdmin(req.params.id);
+            req.session.passport.user = admin;
+            req.session.message = "ok";
+            req.session.save(function (err) {
+                console.log(err);
+                res.render('admin/update', { newinfo: admin, message: "update success" });
+            })
+
         } else {
-            res.render('admin/update', { message: "duplicate email" })
+            req.session.save(function (err) { console.log(err); })
+            res.render('admin/update', { error: "duplicate email" });
         }
     }
 

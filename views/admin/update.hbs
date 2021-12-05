@@ -6,8 +6,8 @@
                 <div class="form-group">
                     <label>First name</label>
                     <input type="text" class="form-control form-control-lg" name="firstName" placeholder="First name"
-                        required {{#if newinfo}}value="{{newinfo.firstName}}" {{else}}value="{{user.firstName}}"
-                        {{/if}}>
+                        required {{#if newinfo}}value="{{newinfo.firstName}}" {{else}}value="{{user.firstName}}" {{/if}}
+                        name="firstName">
                 </div>
             </div>
 
@@ -34,33 +34,15 @@
             <input type="text" class="form-control form-control-lg" name="address" placeholder="Address" required {{#if
                 newinfo}}value="{{newinfo.address}}" {{else}}value="{{user.address}}" {{/if}}>
         </div>
+        {{#if error}}
+        <div class="text-right mt-5" style="color: red;">Email has already been used</div>
+        {{/if}}
         {{#if message}}
-        <div class="text-right mt-5" style="color: red;">Email has been used</div>
+        <div class="text-right mt-5" style="color: green;">Update success</div>
         {{/if}}
         <div class="mt-1">
             <input type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
                 value="UPDATE"></input>
         </div>
-
-        {{#if newinfo}}
-        <div id="update-storage-admin"></div>
-        {{/if}}
     </form>
 </div>
-
-<script>
-    const newinfo = document.getElementById('update-storage-admin');
-    const form = document.getElementById('form-update-admin');
-    const elements = form.elements;
-
-    const info = {
-        firstName: elements['firstName'].value,
-        lastName: elements['lastName'].value,
-        email: elements['email'].value,
-        address: elements['address'].value,
-        number: elements['number'].value,
-    }
-    if (newinfo) {
-        localStorage.set('user', info)
-    }
-</script>
