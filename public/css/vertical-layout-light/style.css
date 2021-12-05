@@ -30592,5 +30592,18 @@ div.tagsinput span.tag a {
   }
 }
 
+/* order list start here*/
+.order-list tr th {
+  font-size: 1em;
+  background-color: #4B49AC;
+  color: white;
+}
+
+.order-list tr td {
+  font-size: 1em;
+}
+
+/* order list end here */
+
 
 /*# sourceMappingURL=../maps/vertical-layout-light/style.css.map */

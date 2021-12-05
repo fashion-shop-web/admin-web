@@ -13,8 +13,14 @@ class AdminController {
     }
 
     async storeNewAccount(req, res) {
-        await adminService.createNewAccount(req.body);
-        res.redirect('/admin');
+        const valid = await adminService.createNewAccount(req.body);
+        if (valid === 1) {
+            res.render('admin/create', { message: 'Password must contain at least 8 characters' })
+        } else if (valid === 2) {
+            res.render('admin/create', { message: 'Email has been used' })
+        } else {
+            res.render('admin/create', { success: 'Create success!' });
+        }
     }
 
     updatePage(req, res) {
@@ -41,6 +47,8 @@ class AdminController {
         } else if (valid === 2) {
             res.render('admin/password', { message: "Cannot change the same password" });
         } else if (valid === 3) {
+            res.render('admin/password', { message: "Password must contain at last 8 characters" });
+        } else if (valid === 4) {
             res.render('admin/password', { message: "Retype does not match new password" });
         } else {
             res.render('admin/password', { success: "Password has been changed" });

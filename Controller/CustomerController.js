@@ -18,6 +18,10 @@ class CustomerController {
         res.redirect(`/customer?page=${req.query.page}`);
     }
 
+    async showOrder(req, res) {
+        res.render('customer/order');
+    }
+
 }
 
 module.exports = new CustomerController;

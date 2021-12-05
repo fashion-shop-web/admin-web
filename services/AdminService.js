@@ -28,10 +28,16 @@ const getListAdmin = async (reqPage) => {
 
 const createNewAccount = async (admin) => {
     try {
-        admin.role = true;
-        admin.password = bcrypt.hashSync(admin.password, salt);
-        const newAdmin = new user({ ...admin });
-        await newAdmin.save();
+        const check = await user.findOne({ email: admin.email });
+        if (admin.password.length < 8) return 1; //short password
+        else if (check) return 2; //alreay have email
+        else {
+            admin.role = true;
+            admin.password = bcrypt.hashSync(admin.password, salt);
+            const newAdmin = new user({ ...admin });
+            await newAdmin.save();
+            return 0;
+        }
     } catch (err) {
         console.log(err);
     }
@@ -60,8 +66,11 @@ const validateChangePass = async (id, pass) => {
             return 1;  //wrong current password
         } else if (pass.oldPassword === pass.newPassword) {
             return 2; //change to old pass
+        } else if (pass.newPassword.length < 8) {
+            return 3; //pass too short   
         } else if (pass.newPassword !== pass.rePassword) {
-            return 3; //retype invalid
+            return 4; //retype invalid
+
         } else {
             admin.password = bcrypt.hashSync(pass.newPassword, salt);
             await admin.save();

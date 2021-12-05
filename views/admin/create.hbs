@@ -28,7 +28,14 @@
         <div class="form-group mb-5">
             <input type="password" class="form-control form-control-lg" name="password" placeholder="Password" required>
         </div>
-        <div class="mt-5">
+        {{#if message}}
+        <div class="mb-2 text-right" id="valid-text" style="color: red;">{{message}}</div>
+        {{/if}}
+
+        {{#if success}}
+        <div class="mb-2 text-right" id="valid-text" style="color: rgb(6, 87, 6);">{{success}}</div>
+        {{/if}}
+        <div class="mt">
             <input type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
                 value="CREATE"></input>
         </div>

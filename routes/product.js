@@ -15,6 +15,9 @@ router.delete('/:id', productController.deleteProduct)
 router.get('/:id/edit', productController.editForm);
 router.put('/:id', upload.array('images'), productController.updateProduct);
 
+//statistical
+router.get('/statistical', productController.showStatistical)
+
 //read
 router.get('/', productController.homePage);
 

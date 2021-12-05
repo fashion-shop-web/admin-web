@@ -38,6 +38,10 @@ class ProductController {
         await productService.updateProduct(req.params.id, req.body, req.files);
         res.redirect(301, '/product');
     }
+
+    async showStatistical(req, res) {
+        res.render('product/statistical');
+    }
 }
 
 module.exports = new ProductController;
