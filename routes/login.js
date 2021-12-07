@@ -4,8 +4,13 @@ const passport = require('../utils/passport');
 
 const loginController = require('../Controller/LoginController');
 
-router.get('/', loginController.loginPage);
+//forget password
+router.get('/forget', loginController.forgetPage);
+router.post('/forget', loginController.sendNewPassword);
 
+
+//login
+router.get('/', loginController.loginPage);
 router.post('/', passport.authenticate('local', {
     successRedirect: '/admin',
     failureRedirect: '/?wrong-password'

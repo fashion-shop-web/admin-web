@@ -1,3 +1,4 @@
+const loginService = require('../services/LoginService');
 
 class LoginController {
 
@@ -15,6 +16,16 @@ class LoginController {
         res.json({
             message: "logged out"
         })
+    }
+
+    forgetPage(req, res) {
+        res.render('forget', { layout: false });
+    }
+
+    async sendNewPassword(req, res) {
+        const { email } = req.body;
+        await loginService.sendNewPassword(email);
+        res.redirect('/');
     }
 }
 
