@@ -1,0 +1,164 @@
+<div class="content-wrapper">
+    <div class="card-body">
+        <h1 class="mb-4 text-center">DETAIL ORDER</h1>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Product name</th>
+                        <th>Categories</th>
+                        <th>Brand</th>
+                        <th>Price</th>
+                        <th>Sale</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each products}}
+                    <tr>
+                        <td class="py-1"> <img src={{this.image.[0].secure_url}} /></td>
+                        <td style="text-transform: uppercase;">{{this.name}}</td>
+                        <td>{{this.category}}</td>
+                        <td>{{this.brand}}</td>
+                        <td> $ {{this.price}}</td>
+                        <td>{{this.sale}}%</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 col-4"></div>
+        <div class="col-md-4 col-8">
+            <div class="row">
+                <div class="col-5">
+                    <div class="font-weight-bold">Ship:</div>
+                    <div class="font-weight-bold">Total price:</div>
+                </div>
+                <div class="col-7">
+                    <div>$ {{userOrder.ship}}</div>
+                    <div>$ {{userOrder.total}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5 mb-5 ml-3 mr-3">
+        <div class="col-12 mb-3">
+            <h3 class="text-center">HISTORY</h3>
+        </div>
+        <div class="col-3 col-md-5 d-flex justify-content-center">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQwAAAC8CAMAAAC672BgAAAAkFBMVEX////NMwHLIADMKwDouq/JFADLIgD68u/vy8HYcVnosKfovLbWbVnov7borp/89vXXcV/67+n9+/jflITVYkfICADx0cfjppfy18/joZXWaE/biHvaemfXbFLXcFr14tvRTCjOOQDPQhrTWTjch3XbgmzntarPQRDagHHioZDRTzPSVj303tjVZUnWblvRTiw9OREAAAAEuklEQVR4nO3ca3eiMBAGYEwIXlbpQiu1rre1VrfWbf//v1urRLESNCwxE/o+39oD50zGAEmY4HkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGBQHMe2Q7BgwIIU2xJH/Xvbod3eU9DIx79hMoZclYxftkO7PX5GJmNkO7Sbi9vD4Xjc7U4mk587o6FMxsR2bARM05sIf7AdCQGRvE5mtiMhIJbJ+G07Egrk4ySwHQgF8zQZ4juOQb96Tq8TEdmOhICxTMbGdiQELNJksJbtSAiQsxXWsx0JAR2ZjKXtSAjwWfpo7diOhIAW+75z+DMDkSbjxXYkBEQyGWPbkRAQy2Q8246EAjlTm/d8A5ZT2+3TspJTNWZCcGe7fVqeVcuiVQgebTdPT9dkMlZN283T88dgMoJX263TdG8wGdy1RZJX1Xul/xc4N6oNzSWDu/Uo8Y4zteq51zG8xFgyGu6tJE6FoVQ42DEO79SqT4ZjY4xPkalcLGy3rITm/HLDSiXDvTvGdg6/NpMLFzuG5z0YGYJyt+bu0thEMribHcMbmUgGc/GO4R3fqVXJ2eXlRwMDDUb5juGPfiq9Vd8zSHeMe3Fe5ndW8FehgPAr/cjU9EOBdB2lwYlpLka4Y3hx2dcA5a4g3rbd4EJ3vR9l+JNS2RCUHyX/4W+JbNS22LjMGIQNbEdtSImeUduOsaxDx4h6aok8aJD+Q30DnZTIBbmKfF8UPC7TDVjxpOig8k9WQaxjRIVjLL7evfN7MjMQ40Pbrf9iWZyMfbgGpmefWHIhuFtL+gWzsoDvx8p/WNHcrewsjlzH8LzOe1fpJR0eNhfqY1LvW92GVjpqXnQdrS6n4Ngx1rbDNUy5FTaHqHfH0Foi5W+2gzUs0rhnEN+ZEN+pxJcO2OutatMxnn4HKqvdgMCfKQ9IPx9wfb8g3jFeC9Y++cf2gJaocOjF57bbW6joZ90lo9KCWNodozAZ4nPnUZXJ2GWXsLAvVNiujjlhygO0LyDm227uBXFTRR6x/ys6N9Uto167VgCrQ7O8qd4b/po6k5K6f1igp7X6U++OkWj1i8ac8h2jed8+mrTlbLLTvtKD3lowo7wrNmoEJ+tV6bb/SWFpQvkVLj6nXDL/8uWH3Y8Oe8Yqo0PbDS4y+/LL7itUzW0toXzH2E7RTuaewX50OGAsf3J6SF3xHFalT3xbXivMWMo6xGmYT37YbZb5X+d6IemOoUteP3Vfz72K/IjGfKqczBSxHX61DqNN9SRWrU97tU9bq1+y6Gv3JtvRMnGVuyRJWvqS/WmOlokrbJahX6JFUS907CMIl7XetsMPFrxoPh834+1JjA1r1S8W6QJfoFdyE6alLNy1vf9FRodlC6GzJPF4mOY4uv8qT6awReerO4PMlI+bi+62Ttb2Vtefl637cXKbYp6TjfCzq0/bZKe/Lm7mzfUr8wtrbIw4qRqrzVJwdrOeuP71YHZhxMUt7/kylSg6JUjZnsHrcpV4/vGpoFPmvDkmQ+uBTFu8TrsG16vTG8nrRBBf5NISzbYjSc7Fg95OqngoPk9js3pVtMVhd/a80G+TP/pYj/xarfcBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAp/wArTlk7d2/EfQAAAABJRU5ErkJggg=="
+                alt="" class="img-fluid">
+        </div>
+
+        <div class="col-9 col-md-7">
+            {{#each userOrder.process}}
+            <div>
+                <label class="text-info">{{this.time}}</label>
+                <label class="text-primary">{{this.date}}:</label>
+                <label class="text-capitalize">{{this.status}}</label>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+
+    <div class="row pl-3">
+        <div class="col-md-6 mt-3">
+            <h3>CUSTOMER ACCOUNT</h3>
+            <div class="row">
+                <div class="col-4">
+                    <div class="text-left font-weight-bold">First name:</div>
+                    <div class="text-left font-weight-bold">Last name:</div>
+                    <div class="text-left font-weight-bold">Email:</div>
+                    <div class="text-left font-weight-bold">Number:</div>
+                    <div class="text-left font-weight-bold">Address:</div>
+                    <div class="text-left font-weight-bold">Status:</div>
+                </div>
+
+                <div class="col-8">
+                    <div class="text-left">{{userInfo.firstName}}</div>
+                    <div class="text-left">{{userInfo.lastName}}</div>
+                    <div class="text-left">{{userInfo.email}}</div>
+                    <div class="text-left">{{userInfo.number}}</div>
+                    <div class="text-left">{{userInfo.address}}</div>
+                    {{#if userInfo.status}}
+                    <div class="text-left text-danger">Banned</div>
+                    {{else}}
+                    <div class="text-left text-info">Active</div>
+                    {{/if}}
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mt-3">
+            <h3>CHECKOUT INFO</h3>
+            <div class="row">
+                <div class="col-3">
+                    <div class="text-left font-weight-bold">Name:</div>
+                    <div class="text-left font-weight-bold">Number:</div>
+                    <div class="text-left font-weight-bold">Address:</div>
+                    <div class="text-left font-weight-bold">Payment:</div>
+                    <div class="text-left font-weight-bold">Status:</div>
+                    <div class="text-left font-weight-bold">Note:</div>
+                </div>
+                <div class="col-9">
+                    <div class="text-left">{{userOrder.name}}</div>
+                    <div class="text-left">{{userOrder.number}}</div>
+                    <div class="text-left">{{userOrder.address}}</div>
+                    {{#if (compare userOrder.payment 'COD')}}
+                    <div class="text-left text-info">Cash on delivery</div>
+                    {{/if}}
+                    {{#if (compare userOrder.payment 'DC')}}
+                    <div class="text-left text-info">Debit card</div>
+                    {{/if}}
+                    {{#if (compare userOrder.payment 'CC')}}
+                    <div class="text-left text-info">Credit card</div>
+                    {{/if}}
+
+                    {{#if (compare userOrder.status 'cancle')}}
+                    <div class="text-left text-danger">Cancled</div>
+                    {{else}}
+                    <form action="/customer/order/{{userOrder._id}}" method="POST">
+                        <select class="form-select form-select-sm" name="status">
+                            <option class="text-dark" value="pending" {{#if (compare userOrder.status 'pending'
+                                )}}selected{{/if}}>Pending</option>
+                            <option class="text-info" value="packing" {{#if (compare userOrder.status 'packing'
+                                )}}selected{{/if}}>Packing</option>
+                            <option class="text-primary" value="arriving" {{#if (compare userOrder.status 'arriving'
+                                )}}selected{{/if}}>Arriving</option>
+                            <option class="text-success" value="received" {{#if (compare userOrder.status 'received'
+                                )}}selected{{/if}}>Received</option>
+                        </select>
+                        {{/if}}
+
+                        <div class="text-left mb-5">{{userOrder.note}}</div>
+
+                        {{#if error}}
+                        <div class="text-right mt-5 mr-5">
+                            <div class="text-danger">Fail to update status</div>
+                        </div>
+                        {{/if}}
+
+                        {{#if success}}
+                        <div class="text-right mt-5 mr-5">
+                            <div class="text-success">Update status success</div>
+                        </div>
+                        {{/if}}
+
+
+                        <div class="float-right mt-1 mb-3 mr-5">
+                            <button class="btn btn-info ">Comfirm</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>

@@ -5,44 +5,44 @@
 
         <div class="table-responsive">
             <table class="table">
-                <thead>
+                <thead class="text-center">
                     <tr>
                         <th>Order ID</th>
-                        <th>Customer email</th>
-                        <th>Created</th>
+                        <th>Email</th>
+                        <th>Date</th>
+                        <th>Time</th>
                         <th>Status</th>
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
+                {{#each orders}}
+                <tbody class="text-center">
                     <tr>
-                        <td>Jacob</td>
-                        <td>53275531</td>
-                        <td>12 May 2017</td>
-                        <td><label class="badge badge-danger">Pending</label></td>
-                        <td><a href="#">Detail</a></td>
+                        <td>{{this._id}}</td>
+                        <td>{{this.email}}</td>
+                        <td>{{this.createdAt}}</td>
+                        <td>{{this.time}}</td>
+                        <td>
+                            {{#if (compare this.status 'cancel')}}
+                            <label class="badge badge-danger">Canceled</label>
+                            {{/if}}
+                            {{#if (compare this.status 'pending')}}
+                            <label class="badge badge-dark">Pending</label>
+                            {{/if}}
+                            {{#if (compare this.status 'packing')}}
+                            <label class="badge badge-info">Packing</label>
+                            {{/if}}
+                            {{#if (compare this.status 'arriving')}}
+                            <label class="badge badge-primary">Arriving</label>
+                            {{/if}}
+                            {{#if (compare this.status 'received')}}
+                            <label class="badge badge-success">Received</label>
+                            {{/if}}
+                        </td>
+                        <td><a href="/customer/order/{{this._id}}">Detail</a></td>
                     </tr>
                 </tbody>
-
-                <tbody>
-                    <tr>
-                        <td>Jacob</td>
-                        <td>53275531</td>
-                        <td>12 May 2017</td>
-                        <td><label class="badge badge-danger">Pending</label></td>
-                        <td><a href="#">Detail</a></td>
-                    </tr>
-                </tbody>
-
-                <tbody>
-                    <tr>
-                        <td>Jacob</td>
-                        <td>53275531</td>
-                        <td>12 May 2017</td>
-                        <td><label class="badge badge-danger">Pending</label></td>
-                        <td><a href="#">Detail</a></td>
-                    </tr>
-                </tbody>
+                {{/each}}
             </table>
         </div>
 
