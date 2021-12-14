@@ -19,8 +19,10 @@ class CustomerController {
     }
 
     async showOrder(req, res) {
-        const orders = await CustomerService.getListOrder();
-        res.render('customer/order', { orders });
+        const currentPage = req.query.page || 1;
+        const [orders, pages] = await CustomerService.getListOrder(currentPage);
+
+        res.render('customer/order', { orders, pages, currentPage });
     }
 
     async showDetailOrder(req, res) {

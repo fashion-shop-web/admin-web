@@ -29,9 +29,9 @@
             </div>
         </div>
 
-        <div id="admin-list-current-page" hidden name={{currentPage}}></div>
+        <div id="list-current-page" hidden name={{currentPage}}></div>
         {{!-- pagination --}}
-        <div class="mt-5 col-12 d-flex justify-content-center admin-list-pagination">
+        <div class="mt-5 col-12 d-flex justify-content-center list-pagination">
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
                     <li class="page-item">
@@ -55,29 +55,3 @@
         </div>
     </div>
 </div>
-
-
-
-<script>
-    const currentPage = document.getElementById('admin-list-current-page');
-
-    const pages = Array.from(document.querySelectorAll('.admin-list-pagination .pagination .page-item'));
-    const forward = pages.pop();
-    const backward = pages.shift();
-
-    for (let i = 0; i < pages.length; i++) {
-        if (pages[i].textContent == currentPage.getAttribute('name')) pages[i].classList.add('active');
-    }
-
-    forward.onclick = (e) => {
-        e.preventDefault();
-        if (currentPage.getAttribute('name') == pages[pages.length - 1].textContent) return;
-        else pages[parseInt(currentPage.getAttribute('name'))].childNodes[0].click();
-    }
-
-    backward.onclick = (e) => {
-        e.preventDefault();
-        if (currentPage.getAttribute('name') == pages[0].textContent) return;
-        else pages[parseInt(currentPage.getAttribute('name')) - 2].childNodes[0].click();
-    }
-</script>

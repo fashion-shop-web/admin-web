@@ -46,10 +46,20 @@ const unbanCustomer = async (id) => {
     }
 }
 
-const getListOrder = async () => {
+const getListOrder = async (reqPage) => {
     try {
-        const orders = await order.find({}).lean();
+        let orders = await order.find({}).lean();
+        orders.reverse();
+        const page = reqPage;
+        const perPage = 10;
 
+        const start = (page - 1) * perPage;
+        const end = page * perPage;
+        const pages = [];
+
+        for (let count = 0; count < orders.length / perPage; count++) {
+            pages.push(count + 1);
+        }
 
         for (let i = 0; i < orders.length; i++) {
             const userOrder = await user.findOne({ _id: orders[i].userID }).lean();
@@ -63,10 +73,10 @@ const getListOrder = async () => {
             const second = ("0" + date.getSeconds()).slice(-2);;
             orders[i].createdAt = day + '/' + month + '/' + year;
             orders[i].time = hour + ':' + minute + ':' + second;
-
         }
 
-        return orders;
+        orders = orders.slice(start, end);
+        return [orders, pages];
     } catch (err) {
         console.log(err)
     }

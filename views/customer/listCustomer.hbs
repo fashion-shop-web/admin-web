@@ -37,9 +37,9 @@
             </div>
         </div>
 
-        <div id="customer-list-current-page" hidden name={{currentPage}}></div>
+        <div id="list-current-page" hidden name={{currentPage}}></div>
         {{!-- pagination --}}
-        <div class="mt-5 col-12 d-flex justify-content-center customer-list-pagination">
+        <div class="mt-5 col-12 d-flex justify-content-center list-pagination">
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
                     <li class="page-item">
@@ -107,7 +107,7 @@
 <form name="hidden-ban-form" method="POST"></form>
 
 <script>
-    const currentPage = document.getElementById('customer-list-current-page');
+    const currentpage = document.getElementById('list-current-page');
 
     // ban/unban modal
     document.addEventListener('DOMContentLoaded', () => {
@@ -125,35 +125,14 @@
         })
 
         banButton.onclick = () => {
-            actionForm.action = '/customer/ban/' + id + `?page=${currentPage.getAttribute('name')}`;
+            actionForm.action = '/customer/ban/' + id + `?page=${currentpage.getAttribute('name')}`;
             actionForm.submit();
         }
 
         unbanButton.onclick = () => {
-            actionForm.action = '/customer/unban/' + id + `?page=${currentPage.getAttribute('name')}`;
-            console.log('/customer/unban/' + id + `?page=${currentPage.getAttribute('name')}`)
+            actionForm.action = '/customer/unban/' + id + `?page=${currentpage.getAttribute('name')}`;
+            console.log('/customer/unban/' + id + `?page=${currentpage.getAttribute('name')}`)
             actionForm.submit();
         }
     })
-
-
-    const pages = Array.from(document.querySelectorAll('.customer-list-pagination .pagination .page-item'));
-    const forward = pages.pop();
-    const backward = pages.shift();
-
-    for (let i = 0; i < pages.length; i++) {
-        if (pages[i].textContent == currentPage.getAttribute('name')) pages[i].classList.add('active');
-    }
-
-    forward.onclick = (e) => {
-        e.preventDefault();
-        if (currentPage.getAttribute('name') == pages[pages.length - 1].textContent) return;
-        else pages[parseInt(currentPage.getAttribute('name'))].childNodes[0].click();
-    }
-
-    backward.onclick = (e) => {
-        e.preventDefault();
-        if (currentPage.getAttribute('name') == pages[0].textContent) return;
-        else pages[parseInt(currentPage.getAttribute('name')) - 2].childNodes[0].click();
-    }
 </script>
