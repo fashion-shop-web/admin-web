@@ -66,6 +66,7 @@
     </div>
 
     <div class="row pl-3">
+        <div class="col-md-1"></div>
         <div class="col-md-6 mt-3">
             <h3>CUSTOMER ACCOUNT</h3>
             <div class="row">
@@ -93,10 +94,11 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6 mt-3">
+        <div class="col-md-5 mt-3">
             <h3>CHECKOUT INFO</h3>
             <div class="row">
-                <div class="col-3">
+                <div class="col-md-4 col-3">
+
                     <div class="text-left font-weight-bold">Name:</div>
                     <div class="text-left font-weight-bold">Number:</div>
                     <div class="text-left font-weight-bold">Address:</div>
@@ -104,7 +106,7 @@
                     <div class="text-left font-weight-bold">Status:</div>
                     <div class="text-left font-weight-bold">Note:</div>
                 </div>
-                <div class="col-9">
+                <div class="col-md-8 col-9">
                     <div class="text-left">{{userOrder.name}}</div>
                     <div class="text-left">{{userOrder.number}}</div>
                     <div class="text-left">{{userOrder.address}}</div>
@@ -118,7 +120,7 @@
                     <div class="text-left text-info">Credit card</div>
                     {{/if}}
 
-                    {{#if (compare userOrder.status 'cancle')}}
+                    {{#if (compare userOrder.status 'cancel')}}
                     <div class="text-left text-danger">Cancled</div>
                     {{else}}
                     <form action="/customer/order/{{userOrder._id}}" method="POST">
@@ -150,7 +152,15 @@
 
 
                         <div class="float-right mt-1 mb-3 mr-5">
-                            <button class="btn btn-info ">Comfirm</button>
+                            {{#if (compare userOrder.status 'cancel')}}
+                            <button class="btn btn-secondary mr-3" id="detail-order-back-btn"
+                                type="button">Back</button>
+                            {{else}}
+                            <button class="btn btn-secondary mr-3" id="detail-order-back-btn"
+                                type="button">Back</button>
+                            <button class="btn btn-info" type='submit'>Comfirm</button>
+                            {{/if}}
+
                         </div>
 
                     </form>
@@ -158,7 +168,11 @@
             </div>
         </div>
     </div>
-
-
-
 </div>
+
+<script>
+    const backBtn = document.getElementById('detail-order-back-btn');
+    backBtn.onclick = () => {
+        window.location.href = '/customer/order'
+    }
+</script>
