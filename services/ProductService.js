@@ -1,4 +1,5 @@
 const product = require('../models/product');
+const order = require('../models/order');
 const cloudinary = require('../utils/cloudinary');
 const fs = require('fs');
 
@@ -120,10 +121,133 @@ const updateProduct = async (id, updatedProduct, files) => {
     }
 }
 
+const GetProductChartDay = async () => {
+    try {
+        let products = await order.find({}).lean();
+        const ys =[];
+        for (let i = 0; i < products.length; i++) {
+            const date = new Date(products[i].createdAt);
+            const day = ("0" + date.getDate()).slice(-2);
+            const month = ("0" + (date.getMonth() + 1)).slice(-2);
+            const year = date.getFullYear();
+            products[i].createdAt = day + '/' + month + '/' + year;
+            ys.push(products[i].createdAt);
+        }
+        const uniqueday = [...new Set(ys)];
+
+        const count =[];
+
+        for (let i = 0; i < uniqueday.length; i++) 
+        {
+            var tempcount = 0;
+            const tempdate = uniqueday[i].split('/');
+
+            var month = parseInt(tempdate[1]) - 1;
+
+            const start = new Date(tempdate[2],month,tempdate[0]);
+
+            const end  =  new Date(tempdate[2],month,tempdate[0],23,59,59);
+
+            let countselling = await order.find({createdAt: {$gte: start, $lt: end}});
+
+            for(let j = 0; j < countselling.length; j++)
+            {
+                tempcount += countselling[j].products.length;
+            }
+            count.push(tempcount);
+        }
+
+        return [uniqueday, count];
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+const GetProductChartMonth = async () => {
+    try {
+        let products = await order.find({}).lean();
+        const ys =[];
+        for (let i = 0; i < products.length; i++) {
+            const date = new Date(products[i].createdAt);
+            const month = ("0" + (date.getMonth() + 1)).slice(-2);
+            const year = date.getFullYear();
+            products[i].createdAt = month + '/' + year;
+            ys.push(products[i].createdAt);
+        }
+        const uniquemonth = [...new Set(ys)];
+
+        const count =[];
+
+        for (let i = 0; i < uniquemonth.length; i++) 
+        {
+            var tempcount = 0;
+            const tempdate = uniquemonth[i].split('/');
+            var month = parseInt(tempdate[0]) - 1;
+            const start = new Date(tempdate[1],month, 1);
+            var nextmonth = month + 1;
+            const end  =  new Date(tempdate[1],nextmonth, 0);
+
+
+            let countselling = await order.find({createdAt: {$gte: start, $lt: end}});
+
+            for(let j = 0; j < countselling.length; j++)
+            {
+                tempcount += countselling[j].products.length;
+            }
+            count.push(tempcount);
+        }
+
+        return [uniquemonth, count];
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+const GetProductChartYear = async () => {
+    try {
+        let products = await order.find({}).lean();
+        const ys =[];
+        for (let i = 0; i < products.length; i++) {
+            const date = new Date(products[i].createdAt);
+            const year = date.getFullYear();
+            products[i].createdAt = year;
+            ys.push(products[i].createdAt);
+        }
+        const uniqueyear = [...new Set(ys)];
+
+        const count =[];
+
+        for (let i = 0; i < uniqueyear.length; i++) 
+        {
+            var tempcount = 0;
+            const start = new Date(uniqueyear[i],0, 1);
+            const end  =  new Date(uniqueyear[i],11, 31,23,59,59);
+
+            let countselling = await order.find({createdAt: {$gte: start, $lt: end}});
+
+            for(let j = 0; j < countselling.length; j++)
+            {
+                tempcount += countselling[j].products.length;
+            }
+            count.push(tempcount);
+        }
+
+        return [uniqueyear, count];
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+
+
+
 module.exports = {
     showListProduct,
     addNew,
     deleleProduct,
     getEditProduct,
     updateProduct,
+    GetProductChartDay,
+    GetProductChartMonth,
+    GetProductChartYear,
 }

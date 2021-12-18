@@ -40,7 +40,12 @@ class ProductController {
     }
 
     async showStatistical(req, res) {
-        res.render('product/statistical');
+        let [days,countday] = await productService.GetProductChartDay();
+        let [months,countmonth] = await productService.GetProductChartMonth();
+        let [years,countyear] = await productService.GetProductChartYear();
+        res.render('product/statistical', {days: JSON.stringify(days), countday: JSON.stringify(countday),
+             months: JSON.stringify(months), countmonth: JSON.stringify(countmonth) ,
+             years: JSON.stringify(years), countyear: JSON.stringify(countyear) });
     }
 }
 
