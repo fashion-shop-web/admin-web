@@ -3,51 +3,51 @@
         <canvas id="chartDay" Width="30" Height="7"></canvas>
         <script>
             const ctxday = document.getElementById('chartDay').getContext('2d');
-            const xlabeldays = {{{days}}};
-            const ylabeldays = {{{countday}}};
+            const xlabeldays = {{{ days }}};
+            const ylabeldays = {{{ countday }}};
             const myChartDay = new Chart(ctxday, {
                 type: 'line',
                 data: {
                     labels: xlabeldays,
-                datasets: [{
-                    label: 'Selling days',
-                    data: ylabeldays,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
+                    datasets: [{
+                        label: 'Selling days',
+                        data: ylabeldays,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
                     }
                 }
-            }
             });
         </script>
 
         <canvas id="chartMonth" Width="30" Height="7"></canvas>
         <script>
             const ctxmonth = document.getElementById('chartMonth').getContext('2d');
-            const xlabelmonths = {{{months}}};
-            const ylabelmonths= {{{countmonth}}};
+            const xlabelmonths = {{{ months }}};
+            const ylabelmonths = {{{ countmonth }}};
             const myChartmonth = new Chart(ctxmonth, {
                 type: 'line',
                 data: {
@@ -89,9 +89,9 @@
         <canvas id="chartYear" Width="30" Height="7"></canvas>
         <script>
             const ctxyear = document.getElementById('chartYear').getContext('2d');
-            const xlabelyears = {{{years}}};
-            const ylabelyears= {{{countyear}}};
-            const myChartYear= new Chart(ctxyear, {
+            const xlabelyears = {{{ years }}};
+            const ylabelyears = {{{ countyear }}};
+            const myChartYear = new Chart(ctxyear, {
                 type: 'line',
                 data: {
                     labels: xlabelyears,
@@ -129,15 +129,16 @@
             });
         </script>
 
-        <canvas id="PirChartTopSeller" Width="30" Height="10"></canvas>
+        <canvas id="BarChartTopSeller" Width="30" Height="10"></canvas>
         <script>
-            const ctxTopsell = document.getElementById('PirChartTopSeller').getContext('2d');
-            const xlabelTopsell = {{{NameProduct}}};
-            const ylabelTopsell= {{{SellingProduct}}};
-            const myChartTopSell= new Chart(ctxTopsell, {
+            const ctxTopsell = document.getElementById('BarChartTopSeller').getContext('2d');
+            const xlabelTopsell = {{{ NameProduct }}};
+            const ylabelTopsell = {{{ SellingProduct }}};
+            const xlabelTrim = xlabelTopsell.map(label => label.split(' '));
+            const myChartTopSell = new Chart(ctxTopsell, {
                 type: 'bar',
                 data: {
-                    labels: xlabelTopsell,
+                    labels: xlabelTrim,
                     datasets: [{
                         label: 'Top 10 seller',
                         data: ylabelTopsell,
@@ -161,9 +162,21 @@
                     }]
                 },
                 options: {
+                     plugins: {
+                        tooltip: {
+                            callbacks: {
+                                title: (context) => {
+                                    return context[0].label.replaceAll(',', ' ');
+                                }
+                            }
+                        }
+                    },
                     responsive: true,
                     maintainAspectRatio: true,
                     scales: {
+                        x: {
+
+                        },
                         y: {
                             beginAtZero: true
                         }
