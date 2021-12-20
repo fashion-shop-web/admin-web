@@ -130,8 +130,7 @@ const GetProductChartDay = async () => {
             const day = ("0" + date.getDate()).slice(-2);
             const month = ("0" + (date.getMonth() + 1)).slice(-2);
             const year = date.getFullYear();
-            products[i].createdAt = day + '/' + month + '/' + year;
-            ys.push(products[i].createdAt);
+            ys.push(day + '/' + month + '/' + year);
         }
         const uniqueday = [...new Set(ys)];
 
@@ -144,7 +143,7 @@ const GetProductChartDay = async () => {
 
             var month = parseInt(tempdate[1]) - 1;
 
-            const start = new Date(tempdate[2],month,tempdate[0]);
+            const start = new Date(tempdate[2],month,tempdate[0],0,0,0);
 
             const end  =  new Date(tempdate[2],month,tempdate[0],23,59,59);
 
@@ -152,7 +151,10 @@ const GetProductChartDay = async () => {
 
             for(let j = 0; j < countselling.length; j++)
             {
-                tempcount += countselling[j].products.length;
+                if (countselling[j].status === 'received')
+                {
+                    tempcount += countselling[j].products.length;
+                }
             }
             count.push(tempcount);
         }
@@ -183,16 +185,19 @@ const GetProductChartMonth = async () => {
             var tempcount = 0;
             const tempdate = uniquemonth[i].split('/');
             var month = parseInt(tempdate[0]) - 1;
-            const start = new Date(tempdate[1],month, 1);
+            const start = new Date(tempdate[1],month, 1,0,0,0);
             var nextmonth = month + 1;
-            const end  =  new Date(tempdate[1],nextmonth, 0);
+            const end  =  new Date(tempdate[1],nextmonth, 0,23,59,59);
 
 
             let countselling = await order.find({createdAt: {$gte: start, $lt: end}});
 
             for(let j = 0; j < countselling.length; j++)
             {
-                tempcount += countselling[j].products.length;
+                if (countselling[j].status === 'received')
+                {
+                    tempcount += countselling[j].products.length;
+                }
             }
             count.push(tempcount);
         }
@@ -220,14 +225,17 @@ const GetProductChartYear = async () => {
         for (let i = 0; i < uniqueyear.length; i++) 
         {
             var tempcount = 0;
-            const start = new Date(uniqueyear[i],0, 1);
+            const start = new Date(uniqueyear[i],0, 1,0,0,0);
             const end  =  new Date(uniqueyear[i],11, 31,23,59,59);
 
             let countselling = await order.find({createdAt: {$gte: start, $lt: end}});
 
             for(let j = 0; j < countselling.length; j++)
             {
-                tempcount += countselling[j].products.length;
+                if (countselling[j].status === 'received')
+                {
+                    tempcount += countselling[j].products.length;
+                }
             }
             count.push(tempcount);
         }
@@ -238,7 +246,41 @@ const GetProductChartYear = async () => {
     }
 }
 
+const getTopSeller = async () =>{
+    let products = await product.find({}).lean();
+    let orders = await order.find({}).lean();
+    let TopMap = new Map();
 
+    for (let i = 0; i < products.length; i++) {
+        var counttop = 0;
+        var idProduct = String(products[i]._id);
+        
+        for (let j = 0; j < orders.length; j++) {
+            if (orders[j].status === 'received') {
+                for (let k = 0; k < orders[j].products.length; k++)
+                {
+                    const temp = orders[j].products[k].substring(orders[j].products[k].indexOf('-') + 1, orders[j].products[k].length);
+                    if (idProduct === temp){
+                        counttop+=1;
+                    }
+                }
+            }
+        }
+        TopMap.set(products[i].name, counttop);
+    }
+    const mapSort = new Map([...TopMap.entries()].sort((a, b) => b[1] - a[1]))
+    const arrayTmp = Array.from(mapSort).slice(0, 10);
+    const myMap = new Map(arrayTmp);
+
+    var nameXlabel =[];
+    var SellingYlabel =[];
+    for (let i of myMap.entries())
+    {
+        nameXlabel.push(i[0]);
+        SellingYlabel.push(i[1]);
+    }
+    return [nameXlabel, SellingYlabel];
+}
 
 
 module.exports = {
@@ -250,4 +292,5 @@ module.exports = {
     GetProductChartDay,
     GetProductChartMonth,
     GetProductChartYear,
+    getTopSeller,
 }
