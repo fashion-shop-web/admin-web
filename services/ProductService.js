@@ -138,7 +138,7 @@ const GetProductChartDay = async () => {
 
         for (let i = 0; i < uniqueday.length; i++) 
         {
-            var tempcount = 0;
+            var tempcount =0;
             const tempdate = uniqueday[i].split('/');
 
             var month = parseInt(tempdate[1]) - 1;
@@ -147,14 +147,11 @@ const GetProductChartDay = async () => {
 
             const end  =  new Date(tempdate[2],month,tempdate[0],23,59,59);
 
-            let countselling = await order.find({createdAt: {$gte: start, $lt: end}});
+            const countselling = await order.find({status: 'received', createdAt: {$gte: start, $lt: end}});
 
             for(let j = 0; j < countselling.length; j++)
             {
-                if (countselling[j].status === 'received')
-                {
                     tempcount += countselling[j].products.length;
-                }
             }
             count.push(tempcount);
         }
@@ -190,14 +187,11 @@ const GetProductChartMonth = async () => {
             const end  =  new Date(tempdate[1],nextmonth, 0,23,59,59);
 
 
-            let countselling = await order.find({createdAt: {$gte: start, $lt: end}});
+            const countselling = await order.find({status: 'received', createdAt: {$gte: start, $lt: end}});
 
             for(let j = 0; j < countselling.length; j++)
             {
-                if (countselling[j].status === 'received')
-                {
                     tempcount += countselling[j].products.length;
-                }
             }
             count.push(tempcount);
         }
@@ -228,14 +222,11 @@ const GetProductChartYear = async () => {
             const start = new Date(uniqueyear[i],0, 1,0,0,0);
             const end  =  new Date(uniqueyear[i],11, 31,23,59,59);
 
-            let countselling = await order.find({createdAt: {$gte: start, $lt: end}});
+            const countselling = await order.find({status: 'received', createdAt: {$gte: start, $lt: end}});
 
             for(let j = 0; j < countselling.length; j++)
             {
-                if (countselling[j].status === 'received')
-                {
                     tempcount += countselling[j].products.length;
-                }
             }
             count.push(tempcount);
         }
@@ -276,7 +267,7 @@ const getTopSeller = async () =>{
     var SellingYlabel =[];
     for (let i of myMap.entries())
     {
-        nameXlabel.push(i[0]);
+        nameXlabel.push(i[0].toUpperCase());
         SellingYlabel.push(i[1]);
     }
     return [nameXlabel, SellingYlabel];

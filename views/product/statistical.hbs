@@ -134,11 +134,10 @@
             const ctxTopsell = document.getElementById('BarChartTopSeller').getContext('2d');
             const xlabelTopsell = {{{ NameProduct }}};
             const ylabelTopsell = {{{ SellingProduct }}};
-            const xlabelTrim = xlabelTopsell.map(label => label.split(' '));
             const myChartTopSell = new Chart(ctxTopsell, {
                 type: 'bar',
                 data: {
-                    labels: xlabelTrim,
+                    labels: xlabelTopsell,
                     datasets: [{
                         label: 'Top 10 seller',
                         data: ylabelTopsell,
@@ -162,15 +161,6 @@
                     }]
                 },
                 options: {
-                     plugins: {
-                        tooltip: {
-                            callbacks: {
-                                title: (context) => {
-                                    return context[0].label.replaceAll(',', ' ');
-                                }
-                            }
-                        }
-                    },
                     responsive: true,
                     maintainAspectRatio: true,
                     scales: {
